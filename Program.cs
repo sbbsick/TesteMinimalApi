@@ -5,7 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<MyDbContext>(options => options.UseInMemoryDatabase("MyDb"));
+builder.Services.AddDbContext<MyDbContext>(options => options
+        .UseSqlServer(builder.Configuration
+        .GetConnectionString("DefaultConnection") ?? throw new
+            InvalidOperationException("Connection string 'DefaultConnection' not found.")));
 
 var app = builder.Build();
 
